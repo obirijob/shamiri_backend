@@ -35,7 +35,7 @@ model Journal {
 
 model User {
   id        Int      @id @default(autoincrement())
-  username  String   @db.VarChar(50)
+  username  String   @unique @db.VarChar(50)
   password  String   @db.VarChar(2000)
   createdAt DateTime @default(now()) @map("created_at")
 
