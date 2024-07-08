@@ -46,10 +46,10 @@ authRouter.post('/signup', async (req, res) => {
       }
     })
     .then(user => {
-      res.json({ username: user.username })
+      return res.json({ username: user.username })
     })
     .catch(err => {
-      res.status(500).json(err)
+      return res.status(500).json(err)
     })
 })
 
@@ -73,7 +73,7 @@ authRouter.post('/signin', async (req, res) => {
 
   const authToken = await jwt.sign({ username }, secretKey)
 
-  res.header('auth-token', authToken).json({ username: user.username })
+  return res.header('auth-token', authToken).json({ username: user.username })
 })
 
 export default authRouter

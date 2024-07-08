@@ -28,11 +28,11 @@ model Journal {
   title        String   @db.VarChar(150)
   content      String   @db.Text
   category     Int      @db.Int()
-  user         Int      @db.Int()
+  createdBy    Int      @db.Int()
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
   categoryPop  Category @relation(fields: [category], references: [id])
-  createdByPop User     @relation(fields: [user], references: [id])
+  createdByPop User     @relation(fields: [createdBy], references: [id])
 
   @@map("journals")
 }
