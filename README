@@ -1,6 +1,22 @@
 <!-- @format -->
 
-Hello,
+Hello, We are using mysql as the provider. You can change to anyother in the prisma configurations.
+Change this is schema.prisma
+
+```javascript
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+```
+
+and also in the .env file DATABASE_URL
+
+```env
+DATABASE_URL="mysql://root:mypassword@localhost:3306/journal"
+SECRET_KEY="mysecretkey"
+```
+
 These are the instructions to create a working backend service.
 
 1. Clone this project
@@ -13,8 +29,8 @@ These are the instructions to create a working backend service.
    That is going to create connect to a mysqlconnection.
    The other secret key is used by jwt to create tokens
 
-3. Initialize prism by running `npx prism generate` this will generate a schema
-4. Run `npm prism migrate` and follow the instructions to migrate your db.
+3. Initialize prism by running `npx prisma generate` this will generate a schema
+4. Run `npm prisma migrate` and follow the instructions to migrate your db.
 5. Run `npm run seed` this will execute a command to seed your db with some data.
    Some of the data includes a user
    username: obirijob and password : 7554
