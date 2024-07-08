@@ -3,10 +3,12 @@
 import express from 'express'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const authRouter = express.Router()
 const prisma = new PrismaClient()
 const saltRounds = 10
+const secretKey = process.env.SECRET_KEY ?? ''
 
 interface User {
   username: string
@@ -70,7 +72,9 @@ authRouter.post('/signin', async (req, res) => {
     return res.status(401).json({ error: 'Invalid username or password' })
   }
 
-  res.json({ username: user.username })
+  const authToken = await jwt.sign({ username }, secretKey)
+
+  res.header('auth-token', authToken).json({ username: user.username })
 })
 
 export default authRouter
