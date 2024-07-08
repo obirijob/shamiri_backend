@@ -1,1 +1,8 @@
-Hello
+<!-- @format -->
+
+Hello,
+These are the instructions to create a working backend service.
+
+1. Create a `.env file` with the following information
+   `DATABASE_URL="mysql://root:401269014@localhost:3306/journal"
+ SECRET_KEY="mysecretkey"`
