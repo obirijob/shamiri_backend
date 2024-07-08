@@ -227,4 +227,17 @@ journalRouter.post('/addCategory', async (req, res) => {
   return res.json(category)
 })
 
+journalRouter.put('/updateCategory/:categoryId', async (req, res) => {
+  const { name } = req.body
+
+  const category = await prismaClient.category.update({
+    where: {
+      id: parseInt(req.params.categoryId)
+    },
+    data: {
+      name
+    }
+  })
+})
+
 export default journalRouter
