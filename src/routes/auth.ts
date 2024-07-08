@@ -4,6 +4,7 @@ import express from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import prisma from '../prisma/prismaClient'
+import auth from '../middlewares/auth'
 
 const authRouter = express.Router()
 const saltRounds = 10
@@ -74,6 +75,39 @@ authRouter.post('/signin', async (req, res) => {
   const authToken = await jwt.sign({ username }, secretKey)
 
   return res.header('auth-token', authToken).json({ username: user.username })
+})
+
+authRouter.put('/changePassword', auth, async (req: any, res) => {
+  const { oldPassword, newPassword } = req.body
+  const { username } = req.user.username
+
+  const user: User | null = await prisma.user.findFirst({
+    where: { username }
+  })
+
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid username or password' })
+  }
+
+  const passwordCorrect =
+    user === null ? false : await bcrypt.compare(oldPassword, user.password)
+
+  if (!passwordCorrect) {
+    return res.status(401).json({ error: 'Invalid username or password' })
+  }
+
+  var hashedPassword = await bcrypt.hash(newPassword, saltRounds)
+  prisma.user
+    .update({
+      where: { username },
+      data: { password: hashedPassword }
+    })
+    .then(() => {
+      return res.json({ message: 'Password changed successfully' })
+    })
+    .catch(err => {
+      return res.status(500).json(err)
+    })
 })
 
 export default authRouter
