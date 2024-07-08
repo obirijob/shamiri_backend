@@ -7,7 +7,7 @@ const journalRouter = express.Router()
 
 journalRouter.get('/', async (_, res) => {
   const journals = await prismaClient.journal.findMany({
-    include: { categoryPop: true }
+    include: { categoryPop: true, createdByPop: { select: { username: true } } }
   })
   res.json(journals)
 })
