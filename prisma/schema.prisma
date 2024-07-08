@@ -27,6 +27,7 @@ model Journal {
   title     String   @db.VarChar(150)
   content   String   @db.VarChar(150)
   category  Int      @db.Int()
+  createdBy Int      @db.Int()
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
