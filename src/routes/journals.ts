@@ -1,11 +1,15 @@
 /** @format */
 
 import express from 'express'
+import prismaClient from '../prisma/prismaClient'
 
 const journalRouter = express.Router()
 
-journalRouter.get('/', (_, res) => {
-  res.json('GET route')
+journalRouter.get('/', async (_, res) => {
+  const journals = await prismaClient.journal.findMany({
+    include: { categoryPop: true }
+  })
+  res.json(journals)
 })
 
 export default journalRouter

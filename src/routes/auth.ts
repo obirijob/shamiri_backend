@@ -1,16 +1,15 @@
 /** @format */
 
 import express from 'express'
-import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import prisma from '../prisma/prismaClient'
 
 const authRouter = express.Router()
-const prisma = new PrismaClient()
 const saltRounds = 10
 const secretKey = process.env.SECRET_KEY ?? ''
 
-interface User {
+export interface User {
   username: string
   password: string
 }

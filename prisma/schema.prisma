@@ -14,30 +14,35 @@ datasource db {
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique @db.VarChar(150)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id        Int       @id @default(autoincrement())
+  name      String    @unique @db.VarChar(150)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  Journal   Journal[]
 
   @@map("categories")
 }
 
 model Journal {
-  id        Int      @id @default(autoincrement())
-  title     String   @db.VarChar(150)
-  content   String   @db.VarChar(20000)
-  category  Int      @db.Int()
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(150)
+  content     String   @db.Text
+  category    Int      @db.Int()
+  user        Int      @db.Int()
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  categoryPop Category @relation(fields: [category], references: [id])
+  userPop     User     @relation(fields: [user], references: [id])
 
   @@map("journals")
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique @db.VarChar(50)
-  password  String   @db.VarChar(2000)
-  createdAt DateTime @default(now()) @map("created_at")
+  id        Int       @id @default(autoincrement())
+  username  String    @unique @db.VarChar(50)
+  password  String    @db.VarChar(2000)
+  createdAt DateTime  @default(now()) @map("created_at")
+  Journal   Journal[]
 
   @@map("users")
 }
